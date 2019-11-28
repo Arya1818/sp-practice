@@ -44,8 +44,15 @@
 		</set>	
 		where ui_num = #{uiNum}
 	</update>
-	<delete id="deleteUserInfo" parameterType="user">
-		delete from user_info
-		where ui_num = #{uiNum}
-	</delete>
+	
+   <delete id="deleteUserInfos" parameterType="user">
+   delete user_info
+   <where>
+	 	  <if test="uiNums !=null">
+	 	  	<foreach collection="uiNums" item="nums" separator="or">
+	 	  			ui_num = #{nums} 
+	 	  	</foreach>
+	 	  </if>	
+ 	  	</where>
+   </delete>
 </mapper>

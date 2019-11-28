@@ -8,4 +8,5 @@ public interface UserService {
 	public UserVO getUser(UserVO user);
 	public Map<String,String> insertUserInfo(UserVO user);
 	public  Map<String,String> updateUserInfo(UserVO user);
+	public Map<String, String> deleteUserInfos(UserVO user);
 }

@@ -46,8 +46,9 @@ public class UserDAOImpl implements UserDAO {
 
 		SqlSession ss = ssf.openSession();
 		try {
-			return ss.insert("com.sp.practice.dao.UserInfoMapper.insertUserInfo", user);
-
+			int cnt = ss.insert("com.sp.practice.dao.UserInfoMapper.insertUserInfo", user);
+			ss.commit();
+			return cnt;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -60,8 +61,10 @@ public class UserDAOImpl implements UserDAO {
 	public int updateUserInfo(UserVO user) {
 		SqlSession ss = ssf.openSession();
 		try {
-			return ss.update("com.sp.practice.dao.UserInfoMapper.updateUserInfo", user);
-
+			int cnt = ss.update("com.sp.practice.dao.UserInfoMapper.updateUserInfo", user);
+			System.out.println("cnt : " + cnt);
+			ss.commit();
+			return cnt;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -71,20 +74,22 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public int deleteUser(UserVO user) {
+	public int deleteUserInfos(UserVO user) {
 		SqlSession ss = ssf.openSession();
 		try {
 			int cnt = ss.delete("com.sp.practice.dao.UserInfoMapper.deleteUserInfos", user);
+			System.out.println("cnt : " + cnt);
+			ss.commit();
 			if (cnt != user.getUiNums().length) {
 				ss.rollback();
 				return 0;
 			}
-			ss.commit();
 			return cnt;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			ss.close();
 		}
+		return 0;
 	}
 }

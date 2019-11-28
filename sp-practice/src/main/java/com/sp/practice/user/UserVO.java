@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class UserVO {
 	private String uiName;
+	private Integer[] uiNums;
 	private String active;
 	private String uiId;
 	private String uiNum;

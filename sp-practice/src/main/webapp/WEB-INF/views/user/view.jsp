@@ -37,8 +37,7 @@
 			</tr>
 			<tr>
 			<th colspan="2">
-				<button onclick="updateUser()">수정</button>
-				<button onclick="deleteUser()">삭제</button>
+				<button onclick="update(this)">수정</button>
 				<button onclick="goPage('/user/list')">리스트가기</button>
 			</th>
 			</tr>
@@ -53,20 +52,20 @@
 		window.onload = function(){
 			var xhr = new XMLHttpRequest();
 			xhr.open('GET','/user/list/ajax/view?uiNum=${param.uiNum}');
-			
+			xhr.setRequestHeader('Content-Type', 'application/json');
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState ==xhr.DONE){
 					if(xhr.status==200){
 						user = JSON.parse(xhr.responseText);
-						console.log(user);
+						//console.log(user);
 						if(user==null){
 							alert('존재하지않음');
 						}else{
 							var tds = document.querySelectorAll('td[data-id]');
-							for(var t=0; t<tds.length; t++){
-								var td = tds[t];
-								var att = td.getAttribute('data-id');
-								td.innerHTML = user[att];
+							for(var idx=0; idx<tds.length; idx++){
+								var td = tds[idx];
+								var key = td.getAttribute('data-id');
+								td.innerHTML = user[key];
 							}
 						}
 					}
@@ -75,9 +74,22 @@
 			xhr.send();
 		}
 		
+		function update(btn) {
+			btn.onclick = updateUser;
+			var res = document.querySelectorAll('td[data-id]');
+			for (var i = 0; i < res.length; i++) {
+				var td = res[i];
+				var id = td.getAttribute('data-id');
+				console.log(id);
+				td.innerHTML = '<input type="text" id="' + id + '" value="'+ user[id]+'">';
+				
+			}
+
+		}
 		function updateUser(){
 			var xhr = new XMLHttpRequest();
 			xhr.open('PUT','/user/list/ajax');
+			xhr.setRequestHeader('Content-Type', 'application/json');
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState == xhr.DONE){
 					if(xhr.status == 200){
@@ -85,24 +97,24 @@
 						alert(res.cnt);
 						if(res.cnt==1){
 							goPage('/user/list');
+							alert('수정 완료');
 						}
 					}
 				}
 			}
 			var param = {
-				uiName : docmuent.querySelector('input[id=uiName]').value,
-				uiPwd : document.querySelector('input[id=uiPwd]').value,
-				uiNum : user.uiNum
+				uiNum : user.uiNum,
+				uiName : document.querySelector('#uiName').value,
+				uiId : document.querySelector('#uiId').value,
+				uiPwd : document.querySelector('#uiPwd').value,
+				credat : user.credat,
+				cretim : user.cretim,
+			
 			}
-			param = JSON.stringify(param)
+			param = JSON.stringify(param);
 			xhr.send(param);
 		}
 		
-		function deleteUser(){
-			var xhr = new XMLHttpRequest();
-			xhr.open('DELETE','/user/list/ajax');
-			
-		}
 	</script>
 </body>
 </html>

@@ -35,9 +35,9 @@ public class UserController {
 		return us.getUserList();
 	}
 	@RequestMapping(value = "/user/list/ajax/view", method=RequestMethod.GET)
-	public @ResponseBody UserVO getUser(@RequestParam UserVO user) {		
+	public @ResponseBody UserVO getUser(@ModelAttribute UserVO user) {		
 		log.debug("param2: {}", user);
-		return us.getUserVOList(user);
+		return us.getUser(user);
 	}
 	
 	@RequestMapping(value = "/user/list/ajax", method=RequestMethod.POST) 
@@ -51,9 +51,9 @@ public class UserController {
 		return us.updateUserInfo(user);
 	}
 	@RequestMapping(value = "/user/list/ajax", method=RequestMethod.DELETE) 
-	public @ResponseBody  Map<String,String> deleteUser(@RequestBody UserVO user) {		
+	public @ResponseBody  Map<String,String> deleteUser(@ModelAttribute UserVO user) {		
 		log.debug("param: {}", user);
-		return null;
+		return us.deleteUserInfos(user);
 	}
 	
 	

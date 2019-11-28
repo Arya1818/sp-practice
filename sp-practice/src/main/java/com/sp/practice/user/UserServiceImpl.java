@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserVO getUser(UserVO user) {
-		return udao.selectUserVOList(user);
+		return udao.selectUser(user);
 	}
 
 	@Override
@@ -34,6 +34,13 @@ public class UserServiceImpl implements UserService {
 	public Map<String, String> updateUserInfo(UserVO user) {
 		Map<String,String> rMap = new HashMap<String,String>();
 		rMap.put("cnt", udao.updateUserInfo(user) + "");
+		return rMap;
+	}
+
+	@Override
+	public Map<String, String> deleteUserInfos(UserVO user) {
+		Map<String,String> rMap = new HashMap<String,String>();
+		rMap.put("cnt", udao.deleteUserInfos(user) + "");
 		return rMap;
 	}
 
