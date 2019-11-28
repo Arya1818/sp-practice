@@ -7,11 +7,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 </head>
 <body>
+	
 	<div class="container">
-	<h1>User List</h1>
+	<h1>USER LIST</h1>
+	<div class="search">
+		<label for="uiName">이름</label> <!-- label for=uiName 으로 되어있으니 밑에 id=uiName로 하면 텍스트만 눌러도 체크됨 -->
+		<input type="checkbox" name="search" value="ui_name" id="uiName">
+		<label for="uiId">ID</label> 
+		<input type="checkbox" name="search" value="ui_id" id="uiId">
+		<label for="uiNum">번호</label> 
+		<input type="checkbox" name="search" value="ui_num" id="uiNum">
+		<input type="text" id="searchStr"><button>검색</button>
+	</div>
 	<table class="table table-hover">
 			<tr>
 				<th>번호</th>
@@ -23,33 +32,65 @@
 			
 			</tbody>
 	</table>
+	<button onclick="goPage('/user/signup')">회원가입</button>
 	</div>
+	
 	<script>
-		window.onload = function(){
-			var xhr = new XMLHttpRequest();
-			xhr.open('GET','/user/list/ajax')
-			xhr.onreadystatechange = function(){
-				if(xhr.readyState==4){
-					if(xhr.status==200){
-						var userList = JSON.parse(xhr.responseText);
-						console.log(userList);
-						var html='';
-						for(var user of userList){
-							html += '<tr>';
-							html += '<td>' + user.uiNum + '</td>';
-							html += '<td>' + user.uiName + '</td>';
-							html += '<td>' + user.uiId + '</td>';
-							html += '<td>' + user.credat + '</td>';
-							html += '</tr>' 
-						}
-						document.querySelector('#tBody').innerHTML = html;
+	function goPage(url) {
+		location.href = '/views' + url;
+
+	}
+	function getUserList(user){
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET','/user/list/ajax?' + user); //?꼭붙이기
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState==4){
+				if(xhr.status==200){
+					var userList = JSON.parse(xhr.responseText);
+					console.log(userList);
+					var html='';
+					for(var user of userList){
+						html += '<tr onclick="goPage(\'/user/view?uiNum=' +user.uiNum + '\' )">';
+						html += '<td>' + user.uiNum + '</td>';
+						html += '<td>' + user.uiName + '</td>';
+						html += '<td>' + user.uiId + '</td>';
+						html += '<td>' + user.credat + '</td>';
+						html += '</tr>' 
 					}
-		
+					document.querySelector('#tBody').innerHTML = html;
 				}
+	
 			}
-			xhr.send();
+		}
+		xhr.send();
+	}
+		window.onload = function(){
+			getUserList(''); //여기서 getUserList 호출
+			var btn = document.querySelector('button');
+			btn.onclick = function(){
+				var checks = document.querySelectorAll('[name=search]:checked'); // name이 search인것중에 checked만 가져와 (length)
+				if(checks.length<1){
+					alert('검색대상을 1개라도 선택해주세요');
+					return;
+				}
+				var searchStr = document.querySelector('#searchStr');
+				if(searchStr.value.trim().length<1){
+					alert('검색어를 입력해주세요');
+					return;
+				}
+				var search ='';
+				for(var i=0; i<checks.length; i++){
+					search += 'search=' + checks[i].value + '&';
+				}
+				search += 'searchStr=' + searchStr.value;
+				alert(search);
+				getUserList(search); //'조'라고 쳤을 때 search=uiName&searchStr=조 나오는데 이것을 getUserList에 넣어주면 됨!
+				//UserController로 가서 RequestParam Map<String,String> param 넣어줌
+			}
 		}
 	</script>
+	
+	
 
 </body>
 </html>

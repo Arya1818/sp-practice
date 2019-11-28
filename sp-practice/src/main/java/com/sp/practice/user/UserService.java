@@ -5,5 +5,7 @@ import java.util.Map;
 
 public interface UserService {
 	public List<Map<String,String>> getUserList();
-	public List<UserVO> getUserVOList();
+	public UserVO getUser(UserVO user);
+	public Map<String,String> insertUserInfo(UserVO user);
+	public  Map<String,String> updateUserInfo(UserVO user);
 }

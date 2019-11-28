@@ -201,6 +201,7 @@
 					</additionalBuildcommands>
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
+					<wtpContextName>/</wtpContextName>
 				</configuration>
 			</plugin>
 			<plugin>

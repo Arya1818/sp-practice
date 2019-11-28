@@ -13,4 +13,6 @@ public class UserVO {
 	private String credat;
 	private String cretim;
 	private String uiPwd;
+	private String[] search;
+	private String searchStr;
 }
