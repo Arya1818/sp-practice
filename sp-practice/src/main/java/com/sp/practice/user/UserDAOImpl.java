@@ -92,4 +92,19 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return 0;
 	}
+
+	@Override
+	public UserVO selectUserInfo(UserVO user) { //로그인
+		SqlSession ss = ssf.openSession();
+		try {
+			return ss.selectOne("com.sp.practice.dao.UserInfoMapper.selectUserInfo", user);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ss.close();
+		}
+		return null;
+
+	}
 }

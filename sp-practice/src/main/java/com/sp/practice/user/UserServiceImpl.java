@@ -44,4 +44,10 @@ public class UserServiceImpl implements UserService {
 		return rMap;
 	}
 
+	@Override
+	public UserVO doLogin(UserVO user) {
+		return udao.selectUserInfo(user);
+		
+	}
+
 }

@@ -1,4 +1,4 @@
-package com.sp.practice.commont;
+package com.sp.practice.common;
 
 import javax.servlet.http.HttpServletRequest;
 

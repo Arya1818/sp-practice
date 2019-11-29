@@ -9,4 +9,5 @@ public interface UserService {
 	public Map<String,String> insertUserInfo(UserVO user);
 	public  Map<String,String> updateUserInfo(UserVO user);
 	public Map<String, String> deleteUserInfos(UserVO user);
+	public UserVO doLogin(UserVO user);
 }

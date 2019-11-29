@@ -3,13 +3,14 @@ package com.sp.practice.user;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +55,16 @@ public class UserController {
 	public @ResponseBody  Map<String,String> deleteUser(@ModelAttribute UserVO user) {		
 		log.debug("param: {}", user);
 		return us.deleteUserInfos(user);
+	}
+	@RequestMapping(value = "/user/login", method=RequestMethod.POST) 
+	public @ResponseBody  UserVO doLogin(@RequestBody UserVO user, HttpSession hs) {		
+		log.debug("param: {}", user);
+		user = us.doLogin(user);
+		log.debug("select user: {}", user);
+		if(user!=null) {
+			hs.setAttribute("user", user);
+		}
+		return user;
 	}
 	
 	
