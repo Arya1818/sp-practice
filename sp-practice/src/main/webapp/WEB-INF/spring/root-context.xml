@@ -13,7 +13,15 @@
 		<property name="defaultAutoCommit" value="false"/>
 	</bean>
 	<bean id="ssfb" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="bds"/>
+		<property name="dataSource" ref="pds"/> 
 		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+	</bean>
+	<bean id="pds" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="bds"></constructor-arg>
+		<property name="logFormatter"> 
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter"> 
+				<property name="loggingType" value="MULTI_LINE"></property>
+			</bean>
+		</property>	
 	</bean>
 </beans>
